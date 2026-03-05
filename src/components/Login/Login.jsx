@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -9,36 +9,44 @@ const Login = () => {
     e.preventDefault();
     console.log("Logging in with:", { email, password });
     // Add your authentication logic here
+    if (onLogin) onLogin({ email, name: email.split("@")[0] });
   };
 
   return (
     <div className="login-container">
       <div className="login-card">
+
+        {/* Logo */}
+        <div className="login-logo">
+          <div className="login-logo-icon">✦</div>
+          <div className="login-logo-text">Nexus<span>UI</span></div>
+        </div>
+
         <div className="login-header">
           <h2>Welcome Back</h2>
-          <p>Please enter your details</p>
+          <p>Please enter your details to sign in</p>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="login-form">
           <div className="input-group">
             <label>Email Address</label>
-            <input 
-              type="email" 
-              placeholder="Enter your email" 
+            <input
+              type="email"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required 
+              required
             />
           </div>
 
           <div className="input-group">
             <label>Password</label>
-            <input 
-              type="password" 
-              placeholder="••••••••" 
+            <input
+              type="password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required 
+              required
             />
           </div>
 
@@ -49,7 +57,7 @@ const Login = () => {
             <a href="#" className="forgot-pass">Forgot Password?</a>
           </div>
 
-          <button type="submit" className="login-btn">Sign In</button>
+          <button type="submit" className="login-btn">Sign In →</button>
         </form>
 
         <p className="signup-link">

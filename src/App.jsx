@@ -1,17 +1,29 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-
-
-import Login from './components/Login/Login' 
+import Login from './components/Login/Login'
+import Dashboard from './components/dashboard/Dashboard'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
+
+  const handleLogin = (userData) => {
+    setCurrentUser(userData)
+    setIsLoggedIn(true)
+  }
+
+  const handleLogout = () => {
+    setCurrentUser(null)
+    setIsLoggedIn(false)
+  }
 
   return (
     <>
-      <Login />
+      {isLoggedIn ? (
+        <Dashboard user={currentUser} onLogout={handleLogout} />
+      ) : (
+        <Login onLogin={handleLogin} />
+      )}
     </>
   )
 }
