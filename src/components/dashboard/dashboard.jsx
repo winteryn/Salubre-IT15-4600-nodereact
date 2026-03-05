@@ -9,11 +9,13 @@ const STATS = [
 ];
 
 const ACTIVITY = [
-  { name: "Alex Rivera",  email: "alex@mail.com",   action: "Logged In",       status: "active",   time: "2m ago",  avatarBg: "#ede9fe", avatarColor: "#6d28d9", initials: "AR" },
-  { name: "Jordan Lee",   email: "jordan@mail.com", action: "Updated Profile", status: "active",   time: "11m ago", avatarBg: "#fae8ff", avatarColor: "#a21caf", initials: "JL" },
-  { name: "Sam Chen",     email: "sam@mail.com",    action: "Reset Password",  status: "pending",  time: "34m ago", avatarBg: "#eef2ff", avatarColor: "#4338ca", initials: "SC" },
-  { name: "Morgan Smith", email: "morgan@mail.com", action: "Uploaded File",   status: "active",   time: "1h ago",  avatarBg: "#ddd6fe", avatarColor: "#5b21b6", initials: "MS" },
-  { name: "Taylor Kim",   email: "taylor@mail.com", action: "Deactivated",     status: "inactive", time: "3h ago",  avatarBg: "#fce7f3", avatarColor: "#9d174d", initials: "TK" },
+  { name: "Jhon Rey Uy",  email: "jhon@mail.com",   action: "Logged In",       status: "active",   time: "2m ago",  avatarBg: "#ede9fe", avatarColor: "#6d28d9", initials: "JR" },
+  { name: "Jupri Clerigo",   email: "jupri@mail.com", action: "Updated Profile", status: "active",   time: "11m ago", avatarBg: "#fae8ff", avatarColor: "#a21caf", initials: "JC" },
+  { name: "Thea Kang",     email: "thea@mail.com",    action: "Reset Password",  status: "pending",  time: "34m ago", avatarBg: "#eef2ff", avatarColor: "#4338ca", initials: "TK" },
+  { name: "Mariel Cortez", email: "mariel@mail.com", action: "Uploaded File",   status: "active",   time: "1h ago",  avatarBg: "#ddd6fe", avatarColor: "#5b21b6", initials: "MC" },
+  { name: "Joshua Hong",   email: "joshua@mail.com", action: "Deactivated",     status: "inactive", time: "3h ago",  avatarBg: "#fce7f3", avatarColor: "#050505", initials: "JH" },
+  { name: "Llyod Loria",   email: "joshua@mail.com", action: "Deactivated",     status: "inactive", time: "10h ago",  avatarBg: "#fce7f3", avatarColor: "#ff34e7", initials: "LL" },
+  { name: "Monjiro Diaz", email: "mariel@mail.com", action: "Uploaded File",   status: "active",   time: "5m ago",  avatarBg: "#ddd6fe", avatarColor: "#21b673", initials: "MD" },
 ];
 
 const NAV_MAIN = [
@@ -37,6 +39,23 @@ const QUICK_ACTIONS = [
   { icon: "🔒", title: "Lock Account",   sub: "Manage access"    },
 ];
 
+const logoutStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: 8,
+  width: "calc(100% - 32px)",
+  margin: "8px 16px 16px",
+  padding: "10px 16px",
+  background: "rgba(232, 142, 255, 0.58)",
+  color: "#ffffff",
+  border: "1px solid rgba(136, 0, 167, 0.34)",
+  borderRadius: 10,
+  cursor: "pointer",
+  fontSize: 13,
+  fontWeight: 600,
+  transition: "background 0.2s",
+};
+
 export default function Dashboard({ user, onLogout }) {
   const [activeNav, setActiveNav] = useState("Overview");
 
@@ -44,7 +63,6 @@ export default function Dashboard({ user, onLogout }) {
     weekday: "long", year: "numeric", month: "long", day: "numeric",
   });
 
-  // Get display name from logged-in user
   const displayName = user?.name
     ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
     : "Jane Doe";
@@ -60,16 +78,23 @@ export default function Dashboard({ user, onLogout }) {
     return "Good evening";
   };
 
+  // ── Safe logout handler ──
+  const handleLogout = () => {
+    if (typeof onLogout === "function") {
+      onLogout();
+    }
+  };
+
   return (
     <div className="dashboard-root">
       {/* ── SIDEBAR ── */}
-      <aside className="sidebar">
+      <aside className="sidebar" style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
         <div className="sidebar-logo">
           <div className="sidebar-logo-icon">✦</div>
-          <div className="sidebar-logo-text">Nexus<span>UI</span></div>
+          <div className="sidebar-logo-text">Meowy<span>UI</span></div>
         </div>
 
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav" style={{ flex: 1, overflowY: "auto" }}>
           <div className="nav-label">Main Menu</div>
           {NAV_MAIN.map((item) => (
             <button
@@ -96,19 +121,22 @@ export default function Dashboard({ user, onLogout }) {
           ))}
         </nav>
 
-        {/* User info */}
-        <div className="sidebar-user">
-          <div className="user-avatar">{initials}</div>
-          <div>
-            <div className="user-info-name">{displayName}</div>
-            <div className="user-info-role">Administrator</div>
+        {/* Bottom section — always pinned */}
+        <div style={{ flexShrink: 0, borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 8 }}>
+          {/* User info */}
+          <div className="sidebar-user">
+            <div className="user-avatar">{initials}</div>
+            <div>
+              <div className="user-info-name">{displayName}</div>
+              <div className="user-info-role">Administrator</div>
+            </div>
           </div>
-        </div>
 
-        {/* ✅ LOGOUT BUTTON */}
-        <button className="logout-btn" onClick={onLogout}>
-          <span>🚪</span> Log Out
-        </button>
+          {/* ✅ LOGOUT BUTTON */}
+          <button style={logoutStyle} onClick={handleLogout}>
+            <span>🚪</span> Log Out
+          </button>
+        </div>
       </aside>
 
       {/* ── MAIN ── */}

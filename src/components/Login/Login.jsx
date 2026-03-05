@@ -19,7 +19,7 @@ const Login = ({ onLogin }) => {
         {/* Logo */}
         <div className="login-logo">
           <div className="login-logo-icon">✦</div>
-          <div className="login-logo-text">Nexus<span>UI</span></div>
+          <div className="login-logo-text">Meowy<span>UI</span></div>
         </div>
 
         <div className="login-header">
